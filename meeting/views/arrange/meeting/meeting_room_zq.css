@@ -17,6 +17,16 @@ header{border-bottom:none!important;}*/
 
 }
 
+body,
+html {
+	width: 160rem;
+
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
 .zone {
 	margin: 0 auto !important;
 }

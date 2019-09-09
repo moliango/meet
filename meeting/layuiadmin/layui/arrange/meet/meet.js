@@ -41,43 +41,36 @@ layui.config({
 									},
 									{
 										field: 'meetingid',
-										title: 'id',
+										title: '会议ID',
 										sort: true,
 										align: 'left',
-										width: '5%',
+										width: '6%',
 										event: 'seeDetail',
 										style: 'cursor: pointer;'
 									}, {
 										field: 'meetingname',
 										title: '会议名',
-										width: '10%',
-										align: "center",
+										width: '15%',
+										align: "center"
 
 									}, {
 										field: 'roomname',
 										title: '会议室地点',
 										width: '15%',
-										align: "center",
+										align: "center"
 
 									}, {
 										field: 'time',
 										title: '会议时间',
 										width: '18%',
-										align: "center",
-
-									}, {
-										field: 'roomname',
-										title: '会议地点',
-										width: '15%',
-										sort: true,
-										align: "center",
+										align: "center"
 
 									}, {
 										field: 'modifytime',
 										title: '修改时间',
-										width: '15%',
+										width: '12%',
 										sort: true,
-										align: "center",
+										align: "center"
 
 									}, {
 										width: 178,

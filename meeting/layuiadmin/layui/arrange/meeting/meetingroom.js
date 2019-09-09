@@ -262,6 +262,7 @@ layui.config({
 					,
 				area: ['100%', '100%'],
 				btn: ['确定', '取消'],
+				scrollbar: false,
 				yes: function(index, layero) {
 
 				},
@@ -271,9 +272,6 @@ layui.config({
 					body.find('#roomid').val(age.roomid)
 				}
 			});
-
-
-
 		}
 
 

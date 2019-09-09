@@ -125,7 +125,10 @@ layui.config({
 					
 					var datatime = data.field.date+" "+datime;
 					console.log(datatime);
-					$.ajax({
+					 
+					 console.log(data.field.addressd);
+
+					$.ajax({	
 						async: false,
 						type: "post",
 						url: "https://www.longjuli.com/ajax",
