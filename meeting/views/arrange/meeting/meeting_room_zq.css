@@ -11,14 +11,23 @@ a:hover{color:#f05e4b!important;font-weight:bold;}*/
 header{border-bottom:none!important;}*/
 
 #body {
-	
+
 	position: absolute;
 	top: -80px;
-	
+
 }
 
 .zone {
 	margin: 0 auto !important;
+}
+
+
+.page-wrapper {
+	background: #fff !important;
+}
+
+.huabu {
+	background: #fff !important;
 }
 
 .fileDiv {

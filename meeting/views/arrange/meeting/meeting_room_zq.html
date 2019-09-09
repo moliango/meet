@@ -8,29 +8,17 @@
 		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
 		<link rel="stylesheet" href="../../../layuiadmin/style/login.css" media="all">
 	</head>
-	<body >
+	<body>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<input type="text" name="roomid" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"
 				 id="roomid" style="display: none;">
 			</div>
 		</div>
-		
-		<div >
-			<center id="body">
-				
-				</center>
-		</div>
-		
-		
+
 		
 	</body>
-	
 	<script src="../../../layuiadmin/layui/layui.js"></script>
-<<<<<<< HEAD
-	
-=======
->>>>>>> parent of 4f74f17... 加载模板
 	<script type="text/javascript">
 		layui.config({
 		 	base: '../../../layuiadmin/' //静态资源所在路径
@@ -49,9 +37,9 @@
 				var roomid = $("#roomid").val();
 				
 				$.ajax({
-					url: "https://www.longjuli.com/ajax?",
+					url: "https://www.longjuli.com/ajax",
 					type: "POST",
-					async: true,
+					async: false,
 					data: {
 						"a": "s",
 						"t": "seatzone",
@@ -59,7 +47,7 @@
 					},
 					success: function(data) {
 						var datas = data.data
-						$("#body").html(datas.code);
+						$("body").html(datas.code);
 				
 						
 				
@@ -70,5 +58,8 @@
 			 
 			 
 		 })
+		 
 	</script>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="meeting_room_zq.js" type="text/javascript" charset="utf-8"></script>
 </html>
