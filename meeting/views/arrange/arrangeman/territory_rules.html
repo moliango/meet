@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="rule_zq.css" />
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/login.css" media="all">
+
+		<style type="text/css">
+			header {
+				box-shadow: 0px 0px 5px gray;
+				height: 3.5rem;
+				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				z-index: 9999;
+				background-color: white;
+			}
+
+			body {
+				padding-bottom: 50px;
+			}
+
+			footer {
+				position: fixed;
+				left: 0px;
+				bottom: 0px;
+				width: 100%;
+				height: 240px;
+				background-color: white;
+				z-index: 9999;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header>
+			<span class="layui-breadcrumb" style="line-height: 3.5rem;">
+				<a><cite> &nbsp; &nbsp; &nbsp; 进行规则的修改</cite></a>
+				<a onclick="asd()"><cite><i class="layui-icon layui-icon-refresh-3" style="color: gray;"></i> &nbsp; 刷新 </cite></a>
+
+				<a>
+					<cite>
+						<div class="layui-btn-group">
+							<button type="button" class="layui-btn  layui-ds" data-type="add">规则设置</button>
+							<button type="button" class="layui-btn layui-ds" data-type="hidden" id="hidden">关闭规则列表</button>
+							<button type="button" class="layui-btn">保存</button>
+							<button type="button" class="layui-btn">取消</button>
+						</div>
+					</cite>
+				</a>
+
+			</span>
+		</header>
+
+
+		<input type="text" name="roomid" id="roomid" style="display: none;">
+
+		<input type="text" name="ruleid" id="ruleid" style="display: none;">
+		<div style="height: 240px;"></div>
+		<footer>
+			<table id="test-table-operate" lay-filter="test-table-operate"></table>
+
+		</footer>
+		<script type="text/html" id="test-table-operate-barDemo">
+			<a  title="显示" lay-event="show"><i class="layui-icon layui-icon-table" style="font-size: 1.65rem; color: lightslategrey;"></i>  </a>
+			<a  title="修改参数" lay-event="edit"><i class="layui-icon layui-icon-template" style="font-size: 1.45rem; color: lightslategrey;"></i>  </a>
+			<a  title="修改选区" lay-event="editxq"><i class="layui-icon layui-icon-layouts" style="font-size: 1.65rem; color: lightslategrey;"></i>  </a>
+			<a  title="删除规则" lay-event="del"><i class="layui-icon layui-icon-delete" style="font-size: 1.65rem; color: lightslategrey;"></i>  </a>
+		
+		</script>
+
+
+
+	</body>
+	<script src="../../../layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.config({
+			base: '../../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'user', 'table'], function() {
+			var $ = layui.$,
+				form = layui.form,
+				element = layui.element,
+				table = layui.table,
+				layer = layui.layer,
+				router = layui.router();
+
+			var ruleid = $("#ruleid").val();
+
+
+
+			var roomid = $("#roomid").val();
+
+			console.log(roomid)
+			console.log(ruleid);
+
+			$.ajax({
+				url: "https://www.longjuli.com/ajax",
+				type: "POST",
+				async: true,
+				data: {
+					"a": "s",
+					"t": "seatzone",
+					"c": roomid
+				},
+				success: function(data) {
+					var datas = data.data
+					$("body").append(datas.code);
+				}
+			})
+			$.ajax({
+				async: true,
+				type: "post",
+				url: "https://www.longjuli.com/ajax",
+				dataType: "json",
+				//成功的回调函数
+				data: {
+					"a": "s1",
+					"t": "rulesetup",
+					"id": ruleid,
+					"roomid": roomid
+				},
+				success: function(msg) {
+
+					var data = msg.data;
+
+
+					table.render({
+						elem: '#test-table-operate',
+						data: data,
+						height: 240,
+						cols: [
+							[
+								// 表头
+
+								{
+									field: 'bgcolorid',
+									title: '规则对应底色',
+									align: 'left',
+									width: '11%',
+									event: 'seeDetail',
+									style: 'cursor: pointer;',
+									templet: function(data) {
+										return "<div style='height:25px;width:60px;background-color: " + data.bgcolor + "'></div>"
+									}
+								}, {
+									field: 'seatnum',
+									title: '座位数量',
+									width: '15%',
+									align: "center"
+
+								}, {
+									field: 'rulename',
+									title: '座次规则',
+									width: '15%',
+									align: "center"
+
+								},
+								{
+									field: 'ordernum',
+									title: '规则排序',
+									width: '18%',
+									align: "center",
+									sort: true,
+
+
+								},
+								{
+									field: 'isincrementname',
+									title: '递增补规则',
+
+									width: '18%',
+									align: "center"
+
+
+								}, {
+									field: 'modifytime',
+									title: '更新时间',
+									width: '12%',
+									sort: true,
+									align: "center"
+
+								}, {
+									width: 178,
+									align: 'center',
+									flxed: 'right',
+									title: '操作',
+									toolbar: '#test-table-operate-barDemo'
+								}
+							]
+						],
+						skin: 'line', //表格风格
+						page: false, //是否显示分页
+						limits: [5, 10, 15], //显示
+						limit: 15 //每页默认显示的数量
+					});
+
+				},
+				//失败的回调函数
+				error: function() {
+					console.log("error")
+				}
+			})
+			table.on('tool(test-table-operate)', function(obj) {
+				var data = obj.data;
+				if (obj.event === 'detail') {
+
+				} else if (obj.event === 'del') {
+					console.log(obj)
+					layer.confirm('真的删除行么', function(index) {
+						obj.del();
+
+						$.ajax({
+							async: false,
+							type: "post",
+							url: "https://www.longjuli.com/ajax",
+							dataType: "json",
+							//成功的回调函数
+							data: {
+								"a": "d",
+								"t": "rulesetup",
+								"id": obj.data.id
+							},
+							success: function(msg) {
+
+								if (msg.state == 1) {
+									layer.msg("删除成功");
+								} else {
+									layer.msg("删除失败");
+
+								}
+
+							},
+							//失败的回调函数
+							error: function() {
+								console.log("error")
+							}
+						})
+
+					});
+				} else if (obj.event === 'edit') {
+
+				}
+			});
+			var inde = true
+			var active = {
+				add: function() {
+					layer.open({
+						type: 2,
+						title: '<p style="">规则设置</p>',
+						content: 'rule_form.html'
+							// ,maxmin: true
+							,
+						area: ['60%', '80%']
+					})
+				},
+				hidden: function() {
+
+					if (inde == false) {
+						$('#hidden').text("关闭规则列表")
+						$('footer').show();
+
+
+						inde = true;
+					} else if (inde) {
+						$('#hidden').text("开启规则列表")
+						$('footer').hide();
+						inde = false;
+
+
+					}
+
+				}
+			}
+
+			$('.layui-ds').on('click', function() {
+				var type = $(this).data('type');
+				active[type] && active[type].call(this);
+			});
+
+		})
+
+		function asd() {
+			location.reload();
+		}
+	</script>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="rule_zq.js" type="text/javascript" charset="utf-8"></script>
+</html>
