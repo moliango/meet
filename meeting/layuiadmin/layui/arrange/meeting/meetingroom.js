@@ -94,7 +94,8 @@ layui.config({
 				}, {
 					field: 'roomname',
 					width: '18%',
-					title: '会议室名称'
+					title: '会议室名称',
+					align: "center"
 				}, {
 					field: 'templatefilename',
 					width: '12%',
@@ -113,6 +114,7 @@ layui.config({
 					field: 'experience',
 					width: '25%',
 					title: '更新时间',
+					align: "center",
 					sort: true
 				}, {
 					width: '11.3%',

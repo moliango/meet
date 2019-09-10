@@ -48,26 +48,26 @@ layui.config({
 							field: 'rulename',
 							title: '会议名',
 							width: '20%',
-							align: "center",
+							align: "center"
 
 						}, {
 							field: 'roomname',
 							title: '会议室地点',
 							width: '20%',
-							align: "center",
+							align: "center"
 
 						}, {
 							field: 'stauts',
 							title: '会议规则',
 							width: '15%',
-							align: "center",
+							align: "center"
 
 						}, {
 							field: 'modifytime',
 							title: '更新时间',
 							width: '20%',
 							sort: true,
-							align: "center",
+							align: "center"
 
 						}, {
 							width: '13.3%',
@@ -150,7 +150,9 @@ layui.config({
 				//title: '收藏管理 (考生姓名：张无忌)',
 				title: '  ',
 				shadeClose: false, //弹出框之外的地方是否可以点击
-				area: ['100%', '100%'],
+				area: ['100%', '106%'],
+				closeBtn : 1,
+				offset: '-43px',
 				content: 'territory_rules.html',
 				success: function(layero, index) {
 					var body = layui.layer.getChildFrame('body', index);

@@ -48,7 +48,7 @@
 							<button type="button" class="layui-btn  layui-ds" data-type="add">规则设置</button>
 							<button type="button" class="layui-btn layui-ds" data-type="hidden" id="hidden">关闭规则列表</button>
 							<button type="button" class="layui-btn">保存</button>
-							<button type="button" class="layui-btn">取消</button>
+							<button type="button" class="layui-btn layui-ds" data-type="close">取消</button>
 						</div>
 					</cite>
 				</a>
@@ -61,7 +61,7 @@
 
 		<input type="text" name="ruleid" id="ruleid" style="display: none;">
 		<footer>
-			<table id="test-table-operate" lay-filter="test-table-operate"></table>
+			<table id="test-table-operate" lay-filter="test-table-operate" style="margin-top: -0.6125rem;"></table>
 
 		</footer>
 		<script type="text/html" id="test-table-operate-barDemo">
@@ -142,7 +142,7 @@
 									event: 'seeDetail',
 									style: 'cursor: pointer;',
 									templet: function(data) {
-										return "<div style='height:25px;width:60px;background-color: " + data.bgcolor + "'></div>"
+										return "<div style='height:22px;width:60px;background-color: " + data.bgcolor + "'></div>"
 									}
 								}, {
 									field: 'seatnum',
@@ -182,7 +182,7 @@
 									align: "center"
 
 								}, {
-									width: 178,
+									width: '15%',
 									align: 'center',
 									flxed: 'right',
 									title: '操作',
@@ -272,6 +272,13 @@
 
 					}
 
+				},
+				close: function() {
+
+					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+					parent.layer.close(index); //再执行关闭 
+
 				}
 			}
 
@@ -285,6 +292,7 @@
 		function asd() {
 			location.reload();
 		}
+
 		window.onkeyup = function(ev) {
 			var key = ev.keyCode || ev.which;
 			if (key == 27) { //按下Escape
