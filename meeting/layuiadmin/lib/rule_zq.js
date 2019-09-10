@@ -317,7 +317,7 @@ function updateSeatRule(rule,ruleid,isincrement){
 }
 
 
-function queryAllSeatStatus(){
+function queryAllSeatStatus(ruleid,roomid){
     var data = {};
     data.action = "s";
 //  var temp_ruletemplateid = 0;
@@ -365,6 +365,7 @@ function queryAllSeatStatusById(id){
 
 function setSeatStatus(data){
     console.log("001----显示颜色");
+	 console.log(data);
     if(data && data instanceof Array){
         for(var i = 0,len = data.length; i < len; i++){
             var items = data[i] || [];
@@ -484,6 +485,12 @@ var roomtemplateid = 0;
 $(function(){
     temp_ruletemplateid = getCookie("temp_ruletemplateid") - 0 || 0;
     roomtemplateid = GetQueryString("roomtemplateid") - 0;
+	
+	
+	console.log(window.ruleid.text)
+	console.log(roomid)
+
+	
 
     queryAllSeatStatus();
     
