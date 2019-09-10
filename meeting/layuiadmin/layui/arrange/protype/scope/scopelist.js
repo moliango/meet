@@ -71,6 +71,14 @@ layui.config({
 						console.log("error")
 					}
 				})
+				
+					window.onkeyup = function(ev) {
+					var key = ev.keyCode || ev.which;
+					if (key == 27) { //按下Escape
+						layer.closeAll('iframe'); //关闭所有的iframe层
+				
+					}
+				}
 
 				//监听表格复选框选择
 				table.on('checkbox(test-table-operate)', function(obj) {

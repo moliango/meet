@@ -150,6 +150,7 @@
             }
             clearEventBubble(evt);
         }
+		console.log(ckids);
 
         document.onmouseup = function () {
             isSelect = false;

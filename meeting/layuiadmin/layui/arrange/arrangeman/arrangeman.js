@@ -38,10 +38,10 @@ layui.config({
 						},
 						{
 							field: 'ruleid',
-							title: 'id',
+							title: '编排规则ID',
 							sort: true,
 							align: 'left',
-							width: '5%',
+							width: '9%',
 							event: 'seeDetail',
 							style: 'cursor: pointer;'
 						}, {
@@ -53,32 +53,32 @@ layui.config({
 						}, {
 							field: 'roomname',
 							title: '会议室地点',
-							width: '15%',
+							width: '20%',
 							align: "center",
 
 						}, {
 							field: 'stauts',
 							title: '会议规则',
-							width: '8%',
+							width: '15%',
 							align: "center",
 
 						}, {
 							field: 'modifytime',
 							title: '更新时间',
-							width: '15%',
+							width: '20%',
 							sort: true,
 							align: "center",
 
 						}, {
-							width: 178,
+							width: '13.3%',
 							align: 'center',
 							flxed: 'right',
+							title: '操作',
 							toolbar: '#test-table-operate-barDemo'
 						}
 					]
 				],
-				skin: 'row', //表格风格
-				even: true, //隔行背景
+				skin: 'line', //表格风格
 				page: true, //是否显示分页
 				limits: [5, 10, 15], //显示
 				limit: 10 //每页默认显示的数量
@@ -90,6 +90,14 @@ layui.config({
 			console.log("error")
 		}
 	})
+	
+	window.onkeyup = function(ev) {
+		var key = ev.keyCode || ev.which;
+		if (key == 27) { //按下Escape
+			layer.closeAll('iframe'); //关闭所有的iframe层
+	
+		}
+	}
 
 	//监听表格复选框选择
 	table.on('checkbox(test-table-operate)', function(obj) {

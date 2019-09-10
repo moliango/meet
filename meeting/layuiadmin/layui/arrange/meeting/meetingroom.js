@@ -74,8 +74,7 @@ layui.config({
 		data: a,
 		height: 515,
 		page: true,
-		even: true,
-		skin: 'row',
+		skin: 'line',
 		page: true //开启分页
 			,
 		limits: [5, 10, 15] //显示
@@ -89,35 +88,36 @@ layui.config({
 				},
 				{
 					field: 'roomid',
-					width: 120,
-					title: 'ID',
+					width: '7%',
+					title: '会议室ID',
 					sort: true
 				}, {
 					field: 'roomname',
-					width: 270,
+					width: '18%',
 					title: '会议室名称'
 				}, {
 					field: 'templatefilename',
-					width: 270,
+					width: '12%',
 					title: '模板名称',
 					sort: true
 				}, {
 					field: 'seatrule',
-					width: 200,
+					width: '12%',
 					title: '编排规则'
 				}, {
-					width: 178,
+					width: '12%',
 					align: 'center',
 					title: '座区图',
 					toolbar: '#table-zone-list'
 				}, {
 					field: 'experience',
-					width: 200,
+					width: '25%',
 					title: '更新时间',
 					sort: true
 				}, {
-					width: 178,
+					width: '11.3%',
 					align: 'center',
+					title: '操作',
 					toolbar: '#table-content-list'
 				}
 
@@ -351,6 +351,14 @@ layui.config({
 
 	}
 	//弹出层选项区
+	
+		window.onkeyup = function(ev) {
+		var key = ev.keyCode || ev.which;
+		if (key == 27) { //按下Escape
+			layer.closeAll('iframe'); //关闭所有的iframe层
+	
+		}
+	}
 
 	$('.layui-ds').on('click', function() {
 		var type = $(this).data('type');

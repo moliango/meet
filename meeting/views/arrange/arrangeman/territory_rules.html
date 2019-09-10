@@ -252,7 +252,8 @@
 						content: 'rule_form.html'
 							// ,maxmin: true
 							,
-						area: ['60%', '80%']
+						area: ['30%', '37%'],
+						shadeClose: true
 					})
 				},
 				hidden: function() {
@@ -283,6 +284,13 @@
 
 		function asd() {
 			location.reload();
+		}
+		window.onkeyup = function(ev) {
+			var key = ev.keyCode || ev.which;
+			if (key == 27) { //按下Escape
+				layer.closeAll('iframe'); //关闭所有的iframe层
+
+			}
 		}
 	</script>
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>

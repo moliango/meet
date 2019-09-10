@@ -53,6 +53,8 @@ layui.config({
 					layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
 				});
 				
+				
+				
 				/* 监听提交 */
 				form.on('submit(component-form-demo1)', function(data) {
 					parent.layer.alert(JSON.stringify(data.field), {
@@ -98,3 +100,5 @@ layui.config({
 
 				
 			});
+			
+		

@@ -75,9 +75,7 @@ layui.config({
 						,
 					page: true //开启分页
 						,
-					even: true //开启行高距
-						,
-					skin: 'row' //显示风格
+					skin: 'line' //显示风格
 						,
 					page: true //开启分页
 						,
@@ -85,37 +83,39 @@ layui.config({
 						,
 					limit: 10 //每页默认显示的数量
 						,
-					even: true,
 					cols: [
 						[{
 							type: 'checkbox',
 							fixed: 'left'
 						}, {
 							field: 'attenderid',
-							width: 120,
+							width: '10%',
 							title: '编号',
 							sort: true
 						}, {
 							field: 'name',
-							width: 120,
+							width: '15%',
 							title: '姓名'
 						}, {
 							field: 'duties',
-							width: 270,
+							width: '15%',
 							title: '职务'
 						}, {
 							field: 'phone1',
-							width: 270,
+							width: '20%',
 							title: '联系电话'
 						}, {
 							field: 'modifytime',
-							width: 200,
+							width: '25%',
 							title: '更新时间',
 							sort: true
 						}, {
-							width: 178,
+							width: '12%',
 							align: 'center',
-							toolbar: '#table-content-list'
+							
+							title: '操作',
+							toolbar: '#table-content-list',
+							flxed: 'right'
 						}, ]
 					],
 				})
@@ -126,6 +126,14 @@ layui.config({
 			},
 			async: false
 		})
+	}
+	
+		window.onkeyup = function(ev) {
+		var key = ev.keyCode || ev.which;
+		if (key == 27) { //按下Escape
+			layer.closeAll('iframe'); //关闭所有的iframe层
+	
+		}
 	}
 	//监听下拉框选中
 	form.on('select(component-form-select)', function(data) {
