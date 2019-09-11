@@ -14,23 +14,19 @@ header{border-bottom:none!important;}*/
 
 	position: absolute;
 	top: -80px;
-	
 
 }
 
 body,
 html {
 	width: 160rem;
-	-webkit-user-select:none;
-	-moz-user-select:none;
-	-ms-user-select:none;
-	user-select:none;
-
+	
+	
 }
 
 ::-webkit-scrollbar {
-				display: none;
-			}
+	display: none;
+}
 
 .zone {
 	margin: 0 auto !important;
