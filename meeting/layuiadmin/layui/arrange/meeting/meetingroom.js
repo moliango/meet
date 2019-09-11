@@ -263,7 +263,6 @@ layui.config({
 					// ,maxmin: true
 					,
 				area: ['100%', '100%'],
-				btn: ['确定', '取消'],
 				scrollbar: false,
 				yes: function(index, layero) {
 
