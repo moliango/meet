@@ -202,7 +202,6 @@
 			})
 			//规则列表方法方法
 			function ajax_reload() {
-
 				$.ajax({
 					async: false,
 					type: "post",
@@ -217,15 +216,85 @@
 					},
 					success: function(msg) {
 
-						window.datas = msg.data;
+						var data = msg.data;
+
+
+						tablezonetable = table.render({
+							elem: '#zonetable',
+							data: data,
+							height: 240,
+							cols: [
+								[
+									// 表头
+
+									{
+										field: 'bgcolorid',
+										title: '规则对应底色',
+										align: 'left',
+										width: '11%',
+										event: 'seeDetail',
+										style: 'cursor: pointer;',
+										templet: function(data) {
+											return "<div style='height:22px;width:60px;background-color: " + data.bgcolor + "'></div>"
+										}
+									}, {
+										field: 'seatnum',
+										title: '座位数量',
+										width: '15%',
+										align: "center"
+
+									}, {
+										field: 'rulename',
+										title: '座次规则',
+										width: '15%',
+										align: "center"
+
+									},
+									{
+										field: 'ordernum',
+										title: '规则排序',
+										width: '18%',
+										align: "center",
+										sort: true,
+
+
+									},
+									{
+										field: 'isincrementname',
+										title: '递增补规则',
+
+										width: '18%',
+										align: "center"
+
+
+									}, {
+										field: 'modifytime',
+										title: '更新时间',
+										width: '12%',
+										sort: true,
+										align: "center"
+
+									}, {
+										width: '15%',
+										align: 'center',
+										flxed: 'right',
+										title: '操作',
+										toolbar: '#test-table-operate-barDemo'
+									}
+								]
+							],
+							skin: 'line', //表格风格
+							page: false, //是否显示分页
+							limits: [5, 10, 15], //显示
+							limit: 15 //每页默认显示的数量
+						});
+
+					},
+					//失败的回调函数
+					error: function() {
+						console.log("error")
 					}
-
 				})
-				console.log(datas)
-				// table.reload('zonetable', {
-				// 	data: data
-				// })
-
 			}
 			table.on('tool(zonetable)', function(obj) {
 				var data = obj.data;
@@ -252,11 +321,14 @@
 							success: function(msg) {
 
 								if (msg.state == 1) {
+
+
+									delSeatRule(obj.data.rulezone)
 									layer.msg("删除成功");
-									location.reload();
+									// location.reload();
 								} else {
 									layer.msg("删除失败");
-									location.reload();
+									// location.reload();
 
 								}
 
@@ -283,9 +355,14 @@
 							var body = layer.getChildFrame('body', index);
 							var ruleselect = body.find('#ruleselect').val()
 							var isincrement = body.find('#isincrement').val()
-							updateSeatRule(obj.data.rulezone, ruleselect, obj.data.id, isincrement)
+							console.log(ruleselect)
+							console.log(isincrement)
+							var oldruleid = obj.data.ruleid
+							updateSeatRule(obj.data.rulezone, ruleselect, obj.data.id, isincrement, oldruleid)
 							layer.close(index);
-							location.reload();
+
+
+							// location.reload();
 
 						},
 						success: function(layero, index) {
@@ -317,7 +394,7 @@
 							var isincrement = body.find('#isincrement').val()
 							setSeatRule(ruleselect, isincrement);
 							layer.close(index);
-							location.reload();
+
 						}
 					})
 
@@ -645,6 +722,7 @@
 								$("#" + ckids_now[i]).addClass(ruleid);
 								// console.log($("#" + ckids_now[i]).attr("class"))
 							}
+							ajax_reload();
 
 							// window.frames["mainid"].contentWindow.location.reload();
 
@@ -655,11 +733,12 @@
 				});
 			}
 
-			function updateSeatRule(rule, ruleid, rulerecordid, isincrement) {
+			function updateSeatRule(rule, ruleid, rulerecordid, isincrement, oldruleid) {
 				// var rule = [];
 				// rule.push({"seatid":"1-1","ruleid":"1"});
+				var rulez = JSON.parse(rule);
 				var data = {};
-				data.rule = JSON.parse(rule); //JSON.stringify(rule);
+				data.rule = rulez; //JSON.stringify(rule);
 				data.action = "u";
 				data.ruleid = ruleid;
 				data.rulerecordid = rulerecordid;
@@ -673,12 +752,15 @@
 						// console.log(data)
 						// $("#myDiv").html('<h2>'+data+'</h2>');
 						if (data.state) {
-							for (var i = 0, len = rule.length; i < len; i++) {
+							for (var i = 0, len = rulez.length; i < len; i++) {
 								// console.log($("#" + ckids_now[i]).attr("class"))
-								$("#" + rule[i].seatid).removeClass(oldruleid);
-								$("#" + rule[i].seatid).addClass(ruleid);
+								$("#" + rulez[i].seatid).removeClass(oldruleid);
+								$("#" + rulez[i].seatid).addClass(ruleid);
+								console.log("dats")
 								// console.log($("#" + ckids_now[i]).attr("class"))
 							}
+							ajax_reload();
+
 							//window.frames["mainid"].contentWindow.location.reload();
 							// $('#example23').DataTable().ajax.reload();
 						} else {
@@ -780,6 +862,7 @@
 			function delSeatRule(rulezone) {
 				// olconsole.log('delSeatRule---', rulezone);
 				resetChangeSeartIds();
+				rulezone = JSON.parse(rulezone)
 
 				if (rulezone && rulezone.length > 0) {
 					rulezone.forEach(function(item) {
