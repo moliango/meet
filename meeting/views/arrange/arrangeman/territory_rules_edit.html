@@ -89,13 +89,13 @@
 				layer = layui.layer,
 				router = layui.router();
 			//全局变量编排规则id
-
+		
 			//全局变量会议室规则id
 			var url = window.location.search;
-			var str = url.substr(1);
-			window.ruleid = str.substring(str.indexOf("=") + 1, str.indexOf("&"));
-			window.roomid = str.substring(str.lastIndexOf("=") + 1)
-
+                var str = url.substr(1);
+              window.ruleid = str.substring(str.indexOf("=")+1,str.indexOf("&"));
+               window.roomid=str.substring(str.lastIndexOf("=")+1)
+			
 			//规则列表表格调用方法
 			$.ajax({
 				async: false,
