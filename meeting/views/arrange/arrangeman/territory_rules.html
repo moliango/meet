@@ -47,7 +47,7 @@
 						<div class="layui-btn-group">
 							<button type="button" class="layui-btn  layui-ds" data-type="add">规则设置</button>
 							<button type="button" class="layui-btn layui-ds" data-type="hidden" id="hidden">关闭规则列表</button>
-							<button type="button" class="layui-btn" id="enterbtn">保存</button>
+							<button type="button" class="layui-btn layui-ds" data-type="close">保存并关闭</button>
 							<button type="button" class="layui-btn layui-ds" data-type="close">取消</button>
 						</div>
 					</cite>
@@ -357,8 +357,6 @@
 							var body = layer.getChildFrame('body', index);
 							var ruleselect = body.find('#ruleselect').val()
 							var isincrement = body.find('#isincrement').val()
-							console.log(ruleselect)
-							console.log(isincrement)
 							var oldruleid = obj.data.ruleid
 							updateSeatRule(obj.data.rulezone, ruleselect, obj.data.id, isincrement, oldruleid)
 							layer.close(index);

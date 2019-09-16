@@ -47,7 +47,7 @@
 						<div class="layui-btn-group">
 							<button type="button" class="layui-btn  layui-ds" data-type="add">规则设置</button>
 							<button type="button" class="layui-btn layui-ds" data-type="hidden" id="hidden">关闭规则列表</button>
-							<button type="button" class="layui-btn" id="enterbtn">保存</button>
+							<button type="button" class="layui-btn layui-ds" data-type="close">保存并关闭</button>
 							<button type="button" class="layui-btn layui-ds" data-type="close">取消</button>
 						</div>
 					</cite>
@@ -424,6 +424,9 @@
 					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
 					parent.layer.close(index); //再执行关闭 
+					
+					
+					parent.location.reload();
 
 				}
 			}
