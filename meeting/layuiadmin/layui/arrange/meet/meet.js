@@ -109,6 +109,7 @@ layui.config({
 				//监听工具条
 				table.on('tool(test-table-operate)', function(obj) {
 					var data = obj.data;
+					console.log(data);
 					if (obj.event === 'detail') {
 						layer.msg('ID：' + data.id + ' 的查看操作');
 					} else if (obj.event === 'del') {

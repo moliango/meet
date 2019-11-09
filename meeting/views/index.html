@@ -11,7 +11,7 @@
 
 		<script>
 			/^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
-  </script>
+		</script>
 	</head>
 	<body class="layui-layout-body">
 
@@ -25,13 +25,13 @@
 								<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
 							</a>
 						</li>
-						
+
 						<li class="layui-nav-item" lay-unselect>
 							<a href="javascript:;" layadmin-event="refresh" title="刷新">
 								<i class="layui-icon layui-icon-refresh-3"></i>
 							</a>
 						</li>
-						
+
 					</ul>
 					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 						<li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -39,7 +39,7 @@
 								<i class="layui-icon layui-icon-theme"></i>
 							</a>
 						</li>
-						
+
 						<li class="layui-nav-item layui-hide-xs" lay-unselect>
 							<a href="javascript:;" layadmin-event="fullscreen">
 								<i class="layui-icon layui-icon-screen-full"></i>
@@ -53,7 +53,7 @@
 								<dd><a lay-href="set/user/info.html">基本资料</a></dd>
 								<dd><a lay-href="set/user/password.html">修改密码</a></dd>
 								<hr>
-								<dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+								<dd layadmin-event="logout" style="text-align: center;" id="logout"><a>退出</a></dd>
 							</dl>
 						</li>
 					</ul>
@@ -63,197 +63,137 @@
 				<div class="layui-side layui-side-menu">
 					<div class="">
 						<div class="layui-logo layui-icon" style="font-size: 30px; color: #FFFFFF;" lay-href="home/console.html">
-							<span style="font-size: 22px;"><img src="../layuiadmin/style/res/logo.png "style=" padding-bottom: 0.4375rem;"/>&nbsp;&nbsp;咪叮加加</span>
-							
+							<span style="font-size: 22px;"><img src="../layuiadmin/style/res/logo.png " style=" padding-bottom: 0.4375rem;" />&nbsp;&nbsp;咪叮加加</span>
+
 						</div>
 
 						<ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
 							<li data-name="home" class="layui-nav-item ">
 								<a href="javascript:;" lay-tips="主页" lay-direction="2">
 									<i class="layui-icon layui-icon-home"></i>
-									<cite>座区编排</cite>
+									<cite>会议管理</cite>
 								</a>
 								<dl class="layui-nav-child">
-									<dd data-name="metingman">
-										<a href="javascript:;">会议管理</a>
-										<dl class="layui-nav-child">
-											<dd data-name="model"><a lay-href="arrange/model/model.html">模板工作</a></dd>
-											<dd data-name="room"><a lay-href="arrange/meeting/meeting_room.html">会议室</a></dd>
-											<dd data-name="layout"><a lay-href="arrange/arrangeman/arrangeman.html">编排规则</a></dd>
-											<dd data-name="meting"><a lay-href="arrange/meet/meet.html">会议</a></dd>
-										</dl>
-									</dd>
-									<dd data-name="people">
-										<a href="javascript:;">人员管理</a>
-										<dl class="layui-nav-child">
-											<dd data-name="person"><a lay-href="arrange/attender/attender_list.html">人员列表</a></dd>
-											<dd data-name="property"><a >人员属性</a>
-											<dl class="layui-nav-child">
-												<dd><a lay-href="arrange/peotype/typelist/typelist.html">属性列表</a></dd>
-												<dd><a lay-href="arrange/peotype/scope/scopelist.html">界别</a></dd>
-												<dd><a lay-href="arrange/peotype/identity/identitylist.html">身份</a></dd>
-												<dd><a lay-href="arrange/peotype/group/grouplist.html">组别</a></dd>
-												<dd><a lay-href="arrange/peotype/party/partylist.html">党派</a></dd>
-											</dl>
-											</dd>
-										</dl>
-									</dd>
-
+									<dd><a lay-href="arrange/meet/meet.html">会议</a></dd>
+									<dd><a lay-href="arrange/meeting/meeting_room.html">会议室</a></dd>
+									<dd><a lay-href="arrange/arrangeman/arrangeman.html">编排规则</a></dd>
+									<dd data-name="metingman"><a lay-href="arrange/model/model.html">模板工作</a></a></dd>
 								</dl>
 							</li>
 
 							<li data-name="component" class="layui-nav-item">
 								<a href="javascript:;" lay-tips="组件" lay-direction="2">
 									<i class="layui-icon layui-icon-component"></i>
-									<cite>待添加</cite>
+									<cite>人员管理</cite>
 								</a>
 								<dl class="layui-nav-child">
-									<dd data-name="grid">
-										<a href="javascript:;">待添加</a>
-										<dl class="layui-nav-child">
-											<dd data-name="list"><a lay-href="#">待添加</a></dd>
-											<dd data-name="mobile"><a lay-href="#">待添加</a></dd>
-											<dd data-name="mobile-pc"><a lay-href="#">待添加</a></dd>
-											<dd data-name="all"><a lay-href="#">待添加</a></dd>
-											<dd data-name="stack"><a lay-href="#">待添加</a></dd>
-											<dd data-name="speed-dial"><a lay-href="#">待添加</a></dd>
-										</dl>
-									</dd>
 									<dd data-name="button">
-										<a lay-href="#">待添加</a>
-									</dd>
-									<dd data-name="form">
-										<a href="javascript:;">待添加</a>
+										<a lay-href="arrange/attender/attender_list.html">人员列表</a></dd>
+									<dd data-name="property"><a>人员属性</a>
 										<dl class="layui-nav-child">
-											<dd><a lay-href="#">待添加</a></dd>
-											<dd><a lay-href="#">待添加</a></dd>
+											<dd><a lay-href="arrange/peotype/typelist/typelist.html">属性列表</a></dd>
+											<dd><a lay-href="arrange/peotype/scope/scopelist.html">界别</a></dd>
+											<dd><a lay-href="arrange/peotype/identity/identitylist.html">身份</a></dd>
+											<dd><a lay-href="arrange/peotype/group/grouplist.html">组别</a></dd>
+											<dd><a lay-href="arrange/peotype/party/partylist.html">党派</a></dd>
 										</dl>
 									</dd>
 								</dl>
-							</li>	
-								
-								
-								<li data-name="component" class="layui-nav-item">
-									<a href="javascript:;" lay-tips="组件" lay-direction="2">
-										<i class="layui-icon layui-icon-rate"></i>
-										<cite>待添加</cite>
-									</a>
-									<dl class="layui-nav-child">
-										<dd data-name="grid">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd data-name="list"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile-pc"><a lay-href="#">待添加</a></dd>
-												<dd data-name="all"><a lay-href="#">待添加</a></dd>
-												<dd data-name="stack"><a lay-href="#">待添加</a></dd>
-												<dd data-name="speed-dial"><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-										<dd data-name="button">
-											<a lay-href="#">待添加</a>
-										</dd>
-										<dd data-name="form">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd><a lay-href="#">待添加</a></dd>
-												<dd><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-									</dl>
-								</li>
-								
-								<li data-name="component" class="layui-nav-item">
-									<a href="javascript:;" lay-tips="组件" lay-direction="2">
-										<i class="layui-icon layui-icon-form"></i>
-										<cite>待添加</cite>
-									</a>
-									<dl class="layui-nav-child">
-										<dd data-name="grid">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd data-name="list"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile-pc"><a lay-href="#">待添加</a></dd>
-												<dd data-name="all"><a lay-href="#">待添加</a></dd>
-												<dd data-name="stack"><a lay-href="#">待添加</a></dd>
-												<dd data-name="speed-dial"><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-										<dd data-name="button">
-											<a lay-href="#">待添加</a>
-										</dd>
-										<dd data-name="form">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd><a lay-href="#">待添加</a></dd>
-												<dd><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-									</dl>
-								</li>
-								
-								<li data-name="component" class="layui-nav-item">
-									<a href="javascript:;" lay-tips="组件" lay-direction="2">
-										<i class="layui-icon layui-icon-read"></i>
-										<cite>待添加</cite>
-									</a>
-									<dl class="layui-nav-child">
-										<dd data-name="grid">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd data-name="list"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile-pc"><a lay-href="#">待添加</a></dd>
-												<dd data-name="all"><a lay-href="#">待添加</a></dd>
-												<dd data-name="stack"><a lay-href="#">待添加</a></dd>
-												<dd data-name="speed-dial"><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-										<dd data-name="button">
-											<a lay-href="#">待添加</a>
-										</dd>
-										<dd data-name="form">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd><a lay-href="#">待添加</a></dd>
-												<dd><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-									</dl>
-								</li>
-								
-								<li data-name="component" class="layui-nav-item">
-									<a href="javascript:;" lay-tips="组件" lay-direction="2">
-										<i class="layui-icon layui-icon-user"></i>
-										<cite>待添加</cite>
-									</a>
-									<dl class="layui-nav-child">
-										<dd data-name="grid">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd data-name="list"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile"><a lay-href="#">待添加</a></dd>
-												<dd data-name="mobile-pc"><a lay-href="#">待添加</a></dd>
-												<dd data-name="all"><a lay-href="#">待添加</a></dd>
-												<dd data-name="stack"><a lay-href="#">待添加</a></dd>
-												<dd data-name="speed-dial"><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-										<dd data-name="button">
-											<a lay-href="#">待添加</a>
-										</dd>
-										<dd data-name="form">
-											<a href="javascript:;">待添加</a>
-											<dl class="layui-nav-child">
-												<dd><a lay-href="#">待添加</a></dd>
-												<dd><a lay-href="#">待添加</a></dd>
-											</dl>
-										</dd>
-									</dl>
-								</li>
+							</li>
+
+
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-rate"></i>
+									<cite>电子席签</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a lay-href="arrange/meetings/meetings_list.html">多会场管理</a>
+									</dd>
 									
-							
+								</dl>
+							</li>
+
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-form"></i>
+									<cite>发通知</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a href="javascript:;">通知列表</a>
+										
+									</dd>
+									<dd data-name="button">
+										<a lay-href="#">短信模板</a>
+									</dd>
+									<dd data-name="form">
+										<a href="javascript:;">通讯录</a>
+									</dd>
+								</dl>
+							</li>
+
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-read"></i>
+									<cite>APP</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a href="javascript:;">座次查询菜单</a>
+									</dd>
+									<dd data-name="button">
+										<a lay-href="#">RFID标签绑定</a>
+									</dd>
+								</dl>
+							</li>
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-user"></i>
+									<cite>人脸识别</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a lay-href="">人脸识别</a>
+										
+									</dd>
+									
+								</dl>
+							</li>
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-user"></i>
+									<cite>管理组</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a lay-href="arrange/user/user.html">用户管理</a>
+										
+									</dd>
+									<dd data-name="button">
+										<a lay-href="arrange/role/role.html">角色管理</a>
+									</dd>
+									<dd data-name="form">
+										<a  lay-href="arrange/manage/managegroup.html">管理人员</a>
+									</dd>
+								</dl>
+							</li>
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="组件" lay-direction="2">
+									<i class="layui-icon layui-icon-user"></i>
+									<cite>关于我们</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="grid">
+										<a lay-href="https://www.meetingjiajia.com/index.html#x">咪叮加加官网</a>
+										
+									</dd>
+									
+								</dl>
+							</li>
+
+
 						</ul>
 					</div>
 				</div>
@@ -300,7 +240,48 @@
 				base: '../layuiadmin/' //静态资源所在路径
 			}).extend({
 				index: 'lib/index' //主入口模块
-			}).use('index');
+			}).use('index', function() {
+				var $ = layui.$;
+
+
+// 				$.ajax({
+// 					async: false,
+// 					type: "post",
+// 					url: "http://127.0.0.1:8083/user/test3",
+// 					datatype: 'json',
+// 
+// 					xhrFields: {
+// 						withCredentials: true
+// 					},
+// 					//成功的回调函数
+// 					success: function(msg) {
+// 						console.log(msg)
+// 					},
+// 					error: function(error) {
+// 						console.log(error)
+// 					},
+// 				})
+				$("#logout").click(function() {
+					$.ajax({
+						async: false,
+						type: "get",
+						url: "http://127.0.0.1:8083/logout",
+						datatype: 'json',
+
+						xhrFields: {
+							withCredentials: true
+						},
+						//成功的回调函数
+						success: function(msg) {
+							console.log(msg)
+						},
+						error: function(error) {
+							console.log(error)
+						},
+					})
+
+				})
+			})
 		</script>
 	</body>
 </html>
