@@ -73,11 +73,10 @@
 						withCredentials: true
 					},
 					success: function(data) {
-						console.log(data)
 
 						table.render({
 							elem: '#test-table-operate',
-							data: data.object,
+							data: data.data,
 							height: 515,
 							page: true,
 							skin: 'line',
@@ -131,18 +130,18 @@
 									},
 									{
 										field: 'createTime',
-										width: '19%',
+										width: '16%',
 										title: '创建时间'
 									}, {
 										field: 'updateTime',
-										width: '19%',
+										width: '16%',
 										title: '更新时间',
 										align: "center",
 										sort: true
 									},
 									{
 										field: 'lastLoginTime',
-										width: '19%',
+										width: '16%',
 										title: '最后登录时间',
 										align: "center",
 										sort: true
@@ -164,6 +163,113 @@
 					}
 
 				})
+					table.on('tool(test-table-operate)', function(obj) {
+						if(obj.event==='edit'){
+							console.log(obj.data);
+							layer.open({
+								type: 2,
+								title: '<p style="">修改用户</p>',
+								content: 'user_update.html',
+								// maxmin: true,
+								area: ['60%', '80%'],
+								btn: ['确定', '取消'],
+								yes: function(index, layero) {
+									var body = layer.getChildFrame('body', index);
+									// console.log(body.find('#meeting_list').val() + "1s")
+									
+									$.ajax({
+										url: "http://127.0.0.1:8083/user/updateUser",
+										type: "POST",
+										data: {
+											"userId":obj.data.userId,
+											"anotherName":body.find('#anotherName').val(),
+											"email":body.find('#email').val(),
+											"age":body.find('#age').val(),
+											"sex":body.find('#sexid').val(),
+							
+										},
+										xhrFields: {
+											withCredentials: true
+										},
+										success: function(data) {
+											if (data.code === 0) {
+												layer.msg('添加成功');
+												layer.close(index);
+												var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+												submit.click();
+							
+												
+													
+												
+							
+							
+											} else {
+												layer.msg(data.msg, {
+													icon: 5
+												});
+												layer.close(index);
+											}
+							
+										},
+										error: function(error) {
+							
+											layer.msg(error.msg, {
+												icon: 5
+											});
+											layer.close(index);
+										}
+							
+									})
+							
+							
+							
+								},
+								success: function(layero, index) {
+									var body = layui.layer.getChildFrame('body', index);
+									body.find('#anotherName').val(obj.data.anotherName);
+									body.find('#email').val(obj.data.email);
+									body.find('#age').val(obj.data.age);
+									body.find('#sexid').val(obj.data.sex);
+									
+								}
+							});
+						}
+						if(obj.event==='del'){
+							layer.confirm('真的删除吗', function(index) {
+								obj.del();
+							
+								$.ajax({
+									async: false,
+									type: "post",
+									url: "http://127.0.0.1:8083/user/deleteUser",
+									dataType: "json",
+									//成功的回调函数
+									data: {
+										"userId": obj.data.userId,
+									},
+									xhrFields: {
+										withCredentials: true
+									},
+									success: function(msg) {
+							
+										if (msg.code == 0) {
+											layer.msg("删除成功");
+										} else {
+											layer.msg("删除失败");
+							
+										}
+							
+									},
+									//失败的回调函数
+									error: function() {
+										console.log("error")
+									}
+								})
+								layer.close(index);
+							});
+						}
+						
+					})
 				var active = {
 					add: function() {
 						layer.open({
@@ -175,18 +281,26 @@
 							btn: ['确定', '取消'],
 							yes: function(index, layero) {
 								var body = layer.getChildFrame('body', index);
-								console.log(body.find('#meeting_list').val() + "1s")
-						
+								// console.log(body.find('#meeting_list').val() + "1s")
+						  
 								$.ajax({
 									url: "http://127.0.0.1:8083/user/addUser",
 									type: "POST",
 									data: {
-										
+										"username":body.find('#username').val(),
+										"password":body.find('#password').val(),
+										"anotherName":body.find('#anotherName').val(),
+										"email":body.find('#email').val(),
+										"age":body.find('#age').val(),
+										"sex":body.find('#sexid').val(),
+										"phone":body.find('#username').val(),
 						
 									},
-						
+									xhrFields: {
+										withCredentials: true
+									},
 									success: function(data) {
-										if (data.state === 1) {
+										if (data.code === 0) {
 											layer.msg('添加成功');
 											layer.close(index);
 											var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
@@ -199,7 +313,7 @@
 						
 						
 										} else {
-											layer.msg('添加失败，请稍后再试', {
+											layer.msg(data.msg, {
 												icon: 5
 											});
 											layer.close(index);
@@ -208,7 +322,7 @@
 									},
 									error: function(error) {
 						
-										layer.msg('添加失败，服务器错误请稍后再试', {
+										layer.msg(error.msg, {
 											icon: 5
 										});
 										layer.close(index);
