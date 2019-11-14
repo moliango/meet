@@ -105,7 +105,7 @@
 					$.ajax({
 						async: true,
 						type: "post",
-						url: "http://127.0.0.1:8083/login",
+						url: "http://277305r74h.qicp.vip:33241/login",
 						dataType: "json",
 						data: {
 							"username": obj.field.username,
@@ -114,6 +114,7 @@
 						xhrFields: {
 							withCredentials: true
 						},
+						crossDomain: true,
 						beforeSend: function(XMLHTTPRequest) {
 							loading = layer.load(0, {
 								shade: false,
@@ -128,7 +129,7 @@
 									icon: 1,
 									time: 1000
 								}, function() {
-									location.href = "../index.html"
+									// location.href = "../index.html"
 								})
 							} else {
 								layer.msg(msg.msg, {

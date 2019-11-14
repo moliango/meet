@@ -100,7 +100,7 @@
 					form = layui.form;
 
 				$.ajax({
-					url: "http://127.0.0.1:8083/permission/findAll",
+					url: "http://277305r74h.qicp.vip:33241/permission/findAll",
 					type: "get",
 					async: false,
 					xhrFields: {
@@ -152,7 +152,7 @@
 					 var b=a.join(",")
 					 console.log()
 					$.ajax({
-						url: "http://127.0.0.1:8083/role/addRole",
+						url: "http://277305r74h.qicp.vip:33241/role/addRole",
 						type: "post",
 						dataType: "json",
 						contentType:'application/json',
@@ -171,7 +171,7 @@
 								layer.msg('添加成功');
 								layer.close(index);
 							} else {
-								layer.msg("添加失败", {
+								layer.msg(data.msg, {
 									icon: 5
 								});
 								// layer.close(index);

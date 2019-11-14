@@ -8,12 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
 		<link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
-
-		<script>
-			/^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
-		</script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		
 	</head>
 	<body class="layui-layout-body">
+
 
 		<div id="LAY_app">
 			<div class="layui-layout layui-layout-admin">
@@ -111,7 +110,7 @@
 									<dd data-name="grid">
 										<a lay-href="arrange/meetings/meetings_list.html">多会场管理</a>
 									</dd>
-									
+
 								</dl>
 							</li>
 
@@ -123,7 +122,7 @@
 								<dl class="layui-nav-child">
 									<dd data-name="grid">
 										<a href="javascript:;">通知列表</a>
-										
+
 									</dd>
 									<dd data-name="button">
 										<a lay-href="#">短信模板</a>
@@ -156,27 +155,25 @@
 								<dl class="layui-nav-child">
 									<dd data-name="grid">
 										<a lay-href="">人脸识别</a>
-										
+
 									</dd>
-									
+
 								</dl>
 							</li>
-							<li data-name="component" class="layui-nav-item">
+							<li data-name="component" class="layui-nav-item" id="avirGroup">
 								<a href="javascript:;" lay-tips="组件" lay-direction="2">
 									<i class="layui-icon layui-icon-user"></i>
 									<cite>管理组</cite>
 								</a>
 								<dl class="layui-nav-child">
-									<dd data-name="grid">
+									<dd data-name="grid" id="user">
 										<a lay-href="arrange/user/user.html">用户管理</a>
-										
+
 									</dd>
-									<dd data-name="button">
+									<dd data-name="button" id="role">
 										<a lay-href="arrange/role/role.html">管理组管理</a>
 									</dd>
-									<dd data-name="form">
-										<a  lay-href="arrange/manage/managegroup.html">管理人员</a>
-									</dd>
+									
 								</dl>
 							</li>
 							<li data-name="component" class="layui-nav-item">
@@ -187,9 +184,9 @@
 								<dl class="layui-nav-child">
 									<dd data-name="grid">
 										<a lay-href="https://www.meetingjiajia.com/index.html#x">咪叮加加官网</a>
-										
+
 									</dd>
-									
+
 								</dl>
 							</li>
 
@@ -236,6 +233,70 @@
 
 		<script src="../layuiadmin/layui/layui.js"></script>
 		<script>
+				
+				$(document).ready(function(){
+					$.ajax({
+						async: false,
+						type: "get",
+						url: "http://277305r74h.qicp.vip:33241/permission/getpremission",
+						datatype: 'json',
+								
+						xhrFields: {
+							withCredentials: true
+						},
+						crossDomain: true,
+						//成功的回调函数
+						success: function(msg) {
+							var data = msg.data;
+							if (msg.code != 0) {
+								location.href = "user/login.html"
+							}
+							if (isEmptyObject(data)!=0) {
+								console.log("1")
+								var a=[]
+								$.each(data, function(index, item) {
+									var url = item.split("/")
+									a.push(url[1])
+								
+								})
+								console.log(a)
+								if(a.indexOf("user")==-1&&a.indexOf("manage")==-1){
+									$('#user').hide();
+								}
+								if(a.indexOf("role")==-1){
+									$('#role').hide();
+								}
+								
+								
+								
+							} else {
+								console.log("2")
+								$('#user').hide();
+								$('#role').hide();
+								
+								$('#avirGroup').hide();
+					
+							}
+						},
+						error: function(error) {
+							console.log(error)
+						},
+					})
+					
+				});
+			
+				function isEmptyObject(obj) {
+			
+					var jlength=0;
+					for (var key in obj) {
+						if(key!="null"){
+							jlength++;
+						}
+						 
+					};
+					return jlength
+				};
+				
 			layui.config({
 				base: '../layuiadmin/' //静态资源所在路径
 			}).extend({
@@ -244,28 +305,28 @@
 				var $ = layui.$;
 
 
-// 				$.ajax({
-// 					async: false,
-// 					type: "post",
-// 					url: "http://127.0.0.1:8083/user/test3",
-// 					datatype: 'json',
-// 
-// 					xhrFields: {
-// 						withCredentials: true
-// 					},
-// 					//成功的回调函数
-// 					success: function(msg) {
-// 						console.log(msg)
-// 					},
-// 					error: function(error) {
-// 						console.log(error)
-// 					},
-// 				})
+				// 				$.ajax({
+				// 					async: false,
+				// 					type: "post",
+				// 					url: "http://127.0.0.1:8083/user/test3",
+				// 					datatype: 'json',
+				// 
+				// 					xhrFields: {
+				// 						withCredentials: true
+				// 					},
+				// 					//成功的回调函数
+				// 					success: function(msg) {
+				// 						console.log(msg)
+				// 					},
+				// 					error: function(error) {
+				// 						console.log(error)
+				// 					},
+				// 				})
 				$("#logout").click(function() {
 					$.ajax({
 						async: false,
 						type: "get",
-						url: "http://127.0.0.1:8083/logout",
+						url: "http://277305r74h.qicp.vip:33241/logout",
 						datatype: 'json',
 
 						xhrFields: {

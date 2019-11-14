@@ -22,12 +22,9 @@
 							<div class="layui-card">
 								<div class="layui-card-header">用户管理</div>
 								<div class="layui-card-body">
-									<div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
-										<button class="layui-btn layui-ds" data-type="add">增加</button>
+									<div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;" id="add">
 
-										<button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-										<button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-										<button class="layui-btn" data-type="isAll">验证是否全选</button>
+
 
 									</div>
 									<div>
@@ -37,8 +34,17 @@
 										<a class=" layui-icon " lay-event="zonelist" id="zonelist" style="font-size: 1.5625rem;">&#xe62d;</a>
 									</script>
 									<script type="text/html" id="table-content-list">
-										<a class="layui-btn layui-btn-xs layui-dd" lay-event="edit" data-type="edit" id="edit">编辑</a>
-										<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" data-type="delete">删除</a>
+
+										{{#  if(a.indexOf("updateManage") != -1){ }}
+										<a class="layui-btn layui-btn-xs layui-dd" lay-event="manage" data-type="manage" id="manage">授权</a>
+												{{#  } }}
+										{{#  if(a.indexOf("updateUser") != -1){ }}
+												<a class="layui-btn layui-btn-xs layui-dd" lay-event="edit" data-type="edit" id="edit">编辑</a>
+														{{#  } }}
+										{{#  if(a.indexOf("updateUser") != -1){ }}
+											<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" data-type="delete" id="del">删除</a>
+										{{#  } }}
+										
 									</script>
 								</div>
 							</div>
@@ -66,7 +72,57 @@
 					datas = null,
 					router = layui.router();
 				$.ajax({
-					url: "http://127.0.0.1:8083/user/findAll",
+					async: false,
+					type: "get",
+					url: "http://277305r74h.qicp.vip:33241/permission/getpremission",
+					datatype: 'json',
+
+					xhrFields: {
+						withCredentials: true
+					},
+					//成功的回调函数
+					success: function(msg) {
+						var data = msg.data;
+						if (msg.code != 0) {
+							location.href = "user/login.html"
+						}
+						if (isEmptyObject(data) != 0) {
+							console.log("1")
+							window.a = []
+							$.each(data, function(index, item) {
+								var url = item.split("/")
+								a.push(url[2])
+
+							})
+							console.log(a)
+							if (a.indexOf("addUser") != -1) {
+								$('#add').append("<button class='layui-btn layui-ds' data-type='add' >增加用户</button>")
+							}
+
+						} else {
+							
+
+						}
+					},
+					error: function(error) {
+						console.log(error)
+					},
+				})
+
+				function isEmptyObject(obj) {
+
+					var jlength = 0;
+					for (var key in obj) {
+						if (key != "null") {
+							jlength++;
+						}
+
+					};
+					return jlength
+				};
+
+				$.ajax({
+					url: "http://277305r74h.qicp.vip:33241/manage/findAll",
 					type: "get",
 					async: false,
 					xhrFields: {
@@ -107,6 +163,11 @@
 										title: '昵称',
 										align: "center"
 									}, {
+										field: 'rolename',
+										width: '8%',
+										title: '管理组',
+										align: "center"
+									}, {
 										field: 'sex',
 										width: '7%',
 										title: '性别',
@@ -129,16 +190,16 @@
 
 									},
 									{
-										field: 'createTime',
-										width: '16%',
-										title: '创建时间'
-									}, {
-										field: 'updateTime',
-										width: '16%',
-										title: '更新时间',
-										align: "center",
-										sort: true
+										field: 'phone',
+										width: '10%',
+										title: '手机号'
 									},
+									{
+										field: 'email',
+										width: '12%',
+										title: '邮箱'
+									},
+
 									{
 										field: 'lastLoginTime',
 										width: '16%',
@@ -163,113 +224,171 @@
 					}
 
 				})
-					table.on('tool(test-table-operate)', function(obj) {
-						if(obj.event==='edit'){
-							console.log(obj.data);
-							layer.open({
-								type: 2,
-								title: '<p style="">修改用户</p>',
-								content: 'user_update.html',
-								// maxmin: true,
-								area: ['60%', '80%'],
-								btn: ['确定', '取消'],
-								yes: function(index, layero) {
-									var body = layer.getChildFrame('body', index);
-									// console.log(body.find('#meeting_list').val() + "1s")
-									
-									$.ajax({
-										url: "http://127.0.0.1:8083/user/updateUser",
-										type: "POST",
-										data: {
-											"userId":obj.data.userId,
-											"anotherName":body.find('#anotherName').val(),
-											"email":body.find('#email').val(),
-											"age":body.find('#age').val(),
-											"sex":body.find('#sexid').val(),
-							
-										},
-										xhrFields: {
-											withCredentials: true
-										},
-										success: function(data) {
-											if (data.code === 0) {
-												layer.msg('添加成功');
-												layer.close(index);
-												var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
-												submit.click();
-							
-												
-													
-												
-							
-							
-											} else {
-												layer.msg(data.msg, {
-													icon: 5
-												});
-												layer.close(index);
-											}
-							
-										},
-										error: function(error) {
-							
-											layer.msg(error.msg, {
-												icon: 5
-											});
-											layer.close(index);
-										}
-							
-									})
-							
-							
-							
-								},
-								success: function(layero, index) {
-									var body = layui.layer.getChildFrame('body', index);
-									body.find('#anotherName').val(obj.data.anotherName);
-									body.find('#email').val(obj.data.email);
-									body.find('#age').val(obj.data.age);
-									body.find('#sexid').val(obj.data.sex);
-									
-								}
-							});
-						}
-						if(obj.event==='del'){
-							layer.confirm('真的删除吗', function(index) {
-								obj.del();
-							
+				table.on('tool(test-table-operate)', function(obj) {
+					if (obj.event === 'edit') {
+						console.log(obj.data);
+						layer.open({
+							type: 2,
+							title: '<p style="">修改用户</p>',
+							content: 'user_update.html',
+							// maxmin: true,
+							area: ['60%', '80%'],
+							btn: ['确定', '取消'],
+							yes: function(index, layero) {
+								var body = layer.getChildFrame('body', index);
+								// console.log(body.find('#meeting_list').val() + "1s")
+
 								$.ajax({
-									async: false,
-									type: "post",
-									url: "http://127.0.0.1:8083/user/deleteUser",
-									dataType: "json",
-									//成功的回调函数
+									url: "http://277305r74h.qicp.vip:33241/user/updateUser",
+									type: "POST",
 									data: {
 										"userId": obj.data.userId,
+										"anotherName": body.find('#anotherName').val(),
+										"email": body.find('#email').val(),
+										"age": body.find('#age').val(),
+										"sex": body.find('#sexid').val(),
+
 									},
 									xhrFields: {
 										withCredentials: true
 									},
-									success: function(msg) {
-							
-										if (msg.code == 0) {
-											layer.msg("删除成功");
+									success: function(data) {
+										if (data.code === 0) {
+											layer.msg('修改成功');
+											layer.close(index);
+											var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+											submit.click();
+
+
+
+
+
+
 										} else {
-											layer.msg("删除失败");
-							
+											layer.msg(data.msg, {
+												icon: 5
+											});
+											layer.close(index);
 										}
-							
+
 									},
-									//失败的回调函数
-									error: function() {
-										console.log("error")
+									error: function(error) {
+
+										layer.msg(error.msg, {
+											icon: 5
+										});
+										layer.close(index);
 									}
+
 								})
-								layer.close(index);
-							});
-						}
-						
-					})
+
+
+
+							},
+							success: function(layero, index) {
+								var body = layui.layer.getChildFrame('body', index);
+								body.find('#anotherName').val(obj.data.anotherName);
+								body.find('#email').val(obj.data.email);
+								body.find('#age').val(obj.data.age);
+								body.find('#sexid').val(obj.data.sex);
+
+							}
+						});
+					}
+					if (obj.event === 'del') {
+						layer.confirm('真的删除吗', function(index) {
+							obj.del();
+
+							$.ajax({
+								async: false,
+								type: "post",
+								url: "http://277305r74h.qicp.vip:33241/user/deleteUser",
+								dataType: "json",
+								//成功的回调函数
+								data: {
+									"userId": obj.data.userId,
+								},
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(msg) {
+
+									if (msg.code == 0) {
+										layer.msg("删除成功");
+									} else {
+										layer.msg(msg.msg);
+
+									}
+
+								},
+								//失败的回调函数
+								error: function() {
+									console.log("error")
+								}
+							})
+							layer.close(index);
+						});
+					}
+					if (obj.event === 'manage') {
+						layer.open({
+							type: 2,
+							title: '<p style="">修改管理员</p>',
+							content: 'manageupdate.html',
+							// maxmin: true,
+							area: ['40%', '60%'],
+							btn: ['确定', '取消'],
+							yes: function(index, layero) {
+								var body = layer.getChildFrame('body', index);
+								// console.log(body.find('#meeting_list').val() + "1s")
+
+								$.ajax({
+									url: "http://277305r74h.qicp.vip:33241/manage/updateManage",
+									type: "POST",
+									data: {
+										"userRoleId": obj.data.userRoleId,
+										"roleId": body.find('#group').val(),
+
+
+									},
+									xhrFields: {
+										withCredentials: true
+									},
+									success: function(data) {
+										if (data.code === 0) {
+											layer.msg('修改成功');
+											layer.close(index);
+										} else {
+											layer.msg(data.msg, {
+												icon: 5
+											});
+											layer.close(index);
+										}
+
+									},
+									error: function(error) {
+
+										layer.msg(error.msg, {
+											icon: 5
+										});
+										layer.close(index);
+									}
+
+								})
+
+
+
+							},
+							success: function(layero, index) {
+								var body = layui.layer.getChildFrame('body', index);
+								body.find('#username').val(obj.data.username);
+								body.find('#use').val(obj.data.roleId);
+
+
+							}
+						});
+					}
+
+				})
 				var active = {
 					add: function() {
 						layer.open({
@@ -282,19 +401,19 @@
 							yes: function(index, layero) {
 								var body = layer.getChildFrame('body', index);
 								// console.log(body.find('#meeting_list').val() + "1s")
-						  
+
 								$.ajax({
 									url: "http://127.0.0.1:8083/user/addUser",
 									type: "POST",
 									data: {
-										"username":body.find('#username').val(),
-										"password":body.find('#password').val(),
-										"anotherName":body.find('#anotherName').val(),
-										"email":body.find('#email').val(),
-										"age":body.find('#age').val(),
-										"sex":body.find('#sexid').val(),
-										"phone":body.find('#username').val(),
-						
+										"username": body.find('#username').val(),
+										"password": body.find('#password').val(),
+										"anotherName": body.find('#anotherName').val(),
+										"email": body.find('#email').val(),
+										"age": body.find('#age').val(),
+										"sex": body.find('#sexid').val(),
+										"phone": body.find('#username').val(),
+
 									},
 									xhrFields: {
 										withCredentials: true
@@ -305,33 +424,33 @@
 											layer.close(index);
 											var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
 											submit.click();
-						
-											ajaxs(indexs)
+
+
 											table.reload('test-table-operate', {
 												data: a
 											})
-						
-						
+
+
 										} else {
 											layer.msg(data.msg, {
 												icon: 5
 											});
 											layer.close(index);
 										}
-						
+
 									},
 									error: function(error) {
-						
+
 										layer.msg(error.msg, {
 											icon: 5
 										});
 										layer.close(index);
 									}
-						
+
 								})
-						
-						
-						
+
+
+
 							},
 							success: function(layero, index) {
 								var body = layui.layer.getChildFrame('body', index);

@@ -102,8 +102,7 @@
 										width: '8%',
 										title: '用户名',
 										align: "center"
-									},
-									, {
+									}, , {
 										field: 'rolename',
 										width: '8%',
 										title: '管理组',
@@ -115,7 +114,7 @@
 										title: '最后登录时间',
 										align: "center",
 										sort: true
-									},{
+									}, {
 										width: '10%',
 										align: 'center',
 										title: '操作',
@@ -133,7 +132,125 @@
 					}
 
 				})
-
+				table.on('tool(test-table-operate)', function(obj) {
+					if(obj.event==='edit'){
+						console.log(obj.data);
+						layer.open({
+							type: 2,
+							title: '<p style="">修改管理员</p>',
+							content: 'manageupdate.html',
+							// maxmin: true,
+							area: ['40%', '60%'],
+							btn: ['确定', '取消'],
+							yes: function(index, layero) {
+								var body = layer.getChildFrame('body', index);
+								// console.log(body.find('#meeting_list').val() + "1s")
+								
+								$.ajax({
+									url: "http://127.0.0.1:8083/manage/updateManage",
+									type: "POST",
+									data: {
+										"userRoleId":obj.data.userRoleId,
+										"roleId":body.find('#group').val(),
+									
+						
+									},
+									xhrFields: {
+										withCredentials: true
+									},
+									success: function(data) {
+										if (data.code === 0) {
+											layer.msg('修改成功');
+											layer.close(index);
+										} else {
+											layer.msg(data.msg, {
+												icon: 5
+											});
+											layer.close(index);
+										}
+						
+									},
+									error: function(error) {
+						
+										layer.msg(error.msg, {
+											icon: 5
+										});
+										layer.close(index);
+									}
+						
+								})
+						
+						
+						
+							},
+							success: function(layero, index) {
+								var body = layui.layer.getChildFrame('body', index);
+								body.find('#username').val(obj.data.username);
+								body.find('#use').val(obj.data.roleId);
+								
+								
+							}
+						});
+					}
+					if(obj.event==='del'){
+						layer.confirm('真的删除吗', function(index) {
+							obj.del();
+						
+							$.ajax({
+								async: false,
+								type: "post",
+								url: "http://127.0.0.1:8083/manage/deleteManage",
+								dataType: "json",
+								//成功的回调函数
+								data: {
+									"userRoleId": obj.data.userRoleId,
+								},
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(msg) {
+						
+									if (msg.code == 0) {
+										layer.msg("删除成功");
+									} else {
+										layer.msg(msg.msg);
+						
+									}
+						
+								},
+								//失败的回调函数
+								error: function() {
+									console.log("error")
+								}
+							})
+							layer.close(index);
+						});
+					}
+					
+				})
+				var active = {
+					add: function() {
+						layer.open({
+							type: 2,
+							title: '<p style="">新增管理员</p>',
+							content: 'managelist.html',
+							// maxmin: true,
+							area: ['40%', '60%'],
+							
+							yes: function(index, layero) {
+								
+						
+						
+							},
+							success: function(layero, index) {}
+								
+						});
+					}
+				}
+				$('.layui-ds').on('click', function() {
+					var type = $(this).data('type');
+					active[type] && active[type].call(this);
+				});
 
 			})
 		</script>

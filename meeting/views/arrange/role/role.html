@@ -22,12 +22,8 @@
 							<div class="layui-card">
 								<div class="layui-card-header">管理组管理</div>
 								<div class="layui-card-body">
-									<div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
-										<button class="layui-btn layui-ds" data-type="add">增加</button>
-
-										<button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-										<button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-										<button class="layui-btn" data-type="isAll">验证是否全选</button>
+									<div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;" id="add">
+									
 
 									</div>
 									<div>
@@ -37,8 +33,13 @@
 										<a class=" layui-icon " lay-event="zonelist" id="zonelist" style="font-size: 1.5625rem;">&#xe62d;</a>
 									</script>
 									<script type="text/html" id="table-content-list">
+										
+										
 										<a class="layui-btn layui-btn-xs layui-dd" lay-event="edit" data-type="edit" id="edit">编辑</a>
-										<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" data-type="delete">删除</a>
+										{{#  if(a.indexOf("deleteRole") != -1){ }}
+											<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" data-type="delete">删除</a>
+										{{#  } }}
+										
 									</script>
 								</div>
 							</div>
@@ -65,8 +66,57 @@
 					layer = layui.layer,
 					datas = null,
 					router = layui.router();
+					$.ajax({
+						async: false,
+						type: "get",
+						url: "http://277305r74h.qicp.vip:33241/permission/getpremission",
+						datatype: 'json',
+					
+						xhrFields: {
+							withCredentials: true
+						},
+						//成功的回调函数
+						success: function(msg) {
+							var data = msg.data;
+							if (msg.code != 0) {
+								location.href = "user/login.html"
+							}
+							if (isEmptyObject(data) != 0) {
+								console.log("1")
+								window.a = []
+								$.each(data, function(index, item) {
+									var url = item.split("/")
+									a.push(url[2])
+					
+								})
+								console.log(a)
+								if (a.indexOf("addRole") != -1) {
+									$('#add').append("<button class='layui-btn layui-ds' data-type='add' >增加管理组</button>")
+								}
+					
+							} else {
+								
+					
+							}
+						},
+						error: function(error) {
+							console.log(error)
+						},
+					})
+					
+					function isEmptyObject(obj) {
+					
+						var jlength = 0;
+						for (var key in obj) {
+							if (key != "null") {
+								jlength++;
+							}
+					
+						};
+						return jlength
+					};
 				$.ajax({
-					url: "http://127.0.0.1:8083/role/findAll",
+					url: "http://277305r74h.qicp.vip:33241/role/findAll",
 					type: "get",
 					async: false,
 					xhrFields: {
@@ -140,6 +190,42 @@
 					}
 
 				})
+				table.on('tool(test-table-operate)', function(obj) {
+					if(obj.event==='del'){
+						layer.confirm('真的删除吗', function(index) {
+							obj.del();
+						
+							$.ajax({
+								async: false,
+								type: "post",
+								url: "http://277305r74h.qicp.vip:33241/role/deleteRole",
+								dataType: "json",
+								//成功的回调函数
+								data: {
+									"roleId": obj.data.roleId,
+								},
+								xhrFields: {
+									withCredentials: true
+								},
+								success: function(msg) {
+						
+									if (msg.code == 0) {
+										layer.msg("删除成功");
+									} else {
+										layer.msg(msg.msg);
+						
+									}
+						
+								},
+								//失败的回调函数
+								error: function() {
+									console.log("error")
+								}
+							})
+							layer.close(index);
+						});
+						
+					}})
 				var active = {
 					add: function() {
 						layer.open({
@@ -153,38 +239,7 @@
 								var body = layer.getChildFrame('body', index);
 								// console.log(body.find('#meeting_list').val() + "1s")
 						  
-								$.ajax({
-									url: "http://127.0.0.1:8083/role/addRole",
-									type: "POST",
-									data: {
-										"name":body.find('#rolename').val(),
-										"description":body.find('#description').val(),
-						
-									},
-									xhrFields: {
-										withCredentials: true
-									},
-									success: function(data) {
-										if (data.code === 0) {
-											layer.msg('添加成功');
-											layer.close(index);
-										} else {
-											layer.msg(data.msg, {
-												icon: 5
-											});
-											layer.close(index);
-										}
-						
-									},
-									error: function(error) {
-						
-										layer.msg(error.msg, {
-											icon: 5
-										});
-										layer.close(index);
-									}
-						
-								})
+								
 						
 						
 						
